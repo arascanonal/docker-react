@@ -3,7 +3,20 @@ services:
    - docker
 
 before_install:
-   - docker build -t travis_deneme -f Dockerfile.dev .
+   - docker build -t travis_with_aws -f Dockerfile-nginx .
 
 script:
-   - docker run -e CI=true travis_deneme npm run test -- --coverage
+   - docker run -e CI=true travis_with_aws
+
+deploy:
+   provider: elasticbeanstalk
+   region: eu-central-1
+   app: docker-react
+   env: DockerReact-env
+   bucket_name: elasticbeanstalk-eu-central-1-376058719864
+   bucket_path: docker-react
+   on:
+     branch: master
+   access_key_id: "$AWS_ACCESS_KEY"
+   secret_access_key:
+     secure: "$AWS_SECRET"
