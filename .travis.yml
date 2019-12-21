@@ -5,9 +5,6 @@ services:
 before_install:
    - docker build -t travis_with_aws -f Dockerfile-nginx .
 
-script:
-   - docker run -e CI=true -d travis_with_aws
-
 deploy:
    edge: true     
    provider: elasticbeanstalk
